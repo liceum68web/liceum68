@@ -2,16 +2,13 @@ export enum AppRoutes {
   HOME = "/",
   LOGIN = "/login",
   SIGNUP = "/signup",
-  GROUP = "/group",
-  PURCHASE = "/purchase",
-  FUNDS = "/funds",
   PROFILE = "/profile",
   SETTINGS = "/settings",
-  PRICING = "/pricing",
-  POLICY = "/policy",
-  TERMS = "/terms",
-  ABOUT = "/about",
-  CONTACT = "/contact",
   HELP = "/help",
   DOCUMENTATION = "/documentation",
+}
+
+export interface NavigationLink {
+  label: string;
+  href: string;
 }

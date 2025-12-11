@@ -1,7 +1,13 @@
-root {
+:root {
   --token-color-red: #eb5327ff;
   --token-color-green: #5fae1eff;
   --token-color-yellow: #f59e16ff;
   --token-color-blue: #55a8dfff;
-  --token-color-darkblue: #325377ff;
+  --token-color-darkblue: #113b69ff;
+
+  --token-z-index-dropdown: 2;
+}
+
+.filter-white {
+  filter: brightness(0) invert(1);
 }

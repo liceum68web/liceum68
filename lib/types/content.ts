@@ -1,30 +1,27 @@
-export type IPageContent = Record<string, unknown>;
-
-export interface ITaggedCollection {
-  tags?: string[];
+export enum RelationTo {
+  PAGES = "pages",
+  CATEGORIES = "categories",
 }
 
-export interface IBaseCollectionDto {
-  uuid: string;
-  slug?: string;
-  componentUuid: ComponentUuid;
-  associatedTags: { tagLabel: string }[];
-  childComponents?: ComponentDto[];
+export enum SocialType {
+  FACEBOOK = "facebook",
+  INSTAGRAM = "instagram",
+  YOUTUBE = "youtube",
 }
 
-export enum ComponentUuid {
-  NavbarLink = "navbar-link",
-  NavbarLinkOut = "navbar-link-out",
-  NavbarButton = "navbar-button",
+export enum ContactInfoType {
+  PHONE = "phone",
+  EMAIL = "email",
+  ADDRESS = "address",
 }
 
-export interface INavbarDto extends IBaseCollectionDto {}
-export interface INavMenuItemDto extends IBaseCollectionDto {
-  label: string;
-  imgSrc?: string;
-  description?: string;
-  route?: string;
-  externalUrl?: string;
+// TODO: examine and extend as needed once ready
+export interface ILayoutContentDto {
+  data: {
+    metadata?: {
+      title?: string;
+      description?: string;
+    };
+    [key: string]: unknown;
+  };
 }
-
-export type ComponentDto = INavbarDto & INavMenuItemDto;

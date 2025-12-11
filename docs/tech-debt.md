@@ -1,0 +1,5 @@
+- Once released, all modules need to be reviewed for 'TODO' comments (to clean up leftovers)
+- Need to review all the UI components and append JSDoc, component tests and mdx, as well as stories need to be reviewed to provide comprehensive info about components
+- Figure out sincyng types with Payload CMS repository (src/payload-types.ts)
+- Refactor class names for more appealing names and Tailwind utility classes hidden behind `@apply` directive inside SCSS files
+- Make sure `data-testid` attribute is present on all crucial UI elements (for future e2e testing purposes)

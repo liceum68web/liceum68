@@ -1,5 +1,6 @@
-import React from "react";
 import { Meta, StoryObj } from "@storybook/nextjs";
+import React from "react";
+
 import { IMainGridProps, MainGrid } from "./main-grid";
 
 const mockGridChildren = new Array(12).fill(null);
@@ -11,7 +12,7 @@ const gridColumnClass =
 type StoryProps = IMainGridProps;
 
 const meta: Meta<StoryProps> = {
-  title: "Organisms/MainGrid",
+  title: "Base/MainGrid",
   component: MainGrid,
 };
 

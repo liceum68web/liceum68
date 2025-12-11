@@ -1,9 +1,11 @@
-import { APIMiddleware, HTTPMethod } from "@/lib/types";
-import { keysToCamelCase } from "@/lib/utils";
 import { flow, identity } from "lodash";
+
+import { APIMiddleware, HTTPMethod } from "@/lib/types";
+import { iconNameToPascalCase, keysToCamelCase } from "@/lib/utils";
 
 const defaultMiddleware = {
   keysToCamelCase,
+  iconNameToPascalCase,
 };
 
 /**
@@ -17,11 +19,13 @@ const defaultMiddleware = {
 
 export const contentApi = async (
   query: string,
-  params: Record<string, string>,
-  middleware: APIMiddleware = defaultMiddleware
+  params?: Record<string, string>,
+  middleware: APIMiddleware = defaultMiddleware,
 ) => {
   const baseUrl = process.env.CONTENT_API_BASE_URL;
   const apiKey = process.env.CONTENT_API_KEY;
+  const apiKeyCollectionName = process.env.API_KEY_COLLECTION_NAME;
+
   let data = null;
   let error = null;
 
@@ -38,26 +42,40 @@ export const contentApi = async (
       method: HTTPMethod.POST,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `api_client API-Key ${apiKey}`,
+        Authorization: `${apiKeyCollectionName} API-Key ${apiKey}`,
       },
       body: JSON.stringify({
         query,
-        variables: params,
+        ...(params && { variables: params }),
       }),
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
+      const contentType = response.headers.get("content-type");
+      let errorMessage = `HTTP error ${response.status}`;
+
+      if (contentType?.includes("application/json")) {
+        const errorData = await response.json();
+        errorMessage += `; ${JSON.stringify(errorData)}`;
+      } else {
+        const errorText = await response.text();
+        errorMessage += `; Non-JSON response: ${errorText.substring(0, 200)}`;
+      }
+
+      throw new Error(`Content API error: ${errorMessage}`);
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType?.includes("application/json")) {
+      const responseText = await response.text();
       throw new Error(
-        `Content API error: HTTP error ${response.status}; ${errorData}`
+        `Content API returned non-JSON response: ${responseText.substring(0, 200)}`,
       );
     }
 
     const result = await response.json();
 
-    const transformKeys = flow(
-      [middleware?.keysToCamelCase ?? identity].filter(Boolean)
-    );
+    const transformKeys = flow(Object.values(middleware).filter(Boolean));
 
     data = transformKeys(result.data);
   } catch (err) {

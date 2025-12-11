@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/nextjs-vite";
-import { fontInter } from "../lib/constants";
 
 import "../app/globals.css";
+import { fontDecorator } from "./decorators";
 
 const preview: Preview = {
   parameters: {
@@ -19,13 +19,7 @@ const preview: Preview = {
       test: "todo",
     },
   },
-  decorators: [
-    (Story) => (
-      <div className={fontInter.className}>
-        <Story />
-      </div>
-    ),
-  ],
+  decorators: [fontDecorator()],
 };
 
 export default preview;

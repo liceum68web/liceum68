@@ -1,8 +1,10 @@
-import { IBaseProps } from "@/lib/types";
 import { clsx } from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import { logoClass } from "./logo.styles";
+
+import { IBaseProps } from "@/lib/types";
+
+import { logoClass, linkClass } from "./logo.styles";
 
 /**
  * Props interface for the Logo component.
@@ -106,7 +108,7 @@ export const Logo = ({
   ...props
 }: ILogoProps) => {
   return (
-    <Link href={href} onClick={onClick} {...props}>
+    <Link className={linkClass} href={href} onClick={onClick} {...props}>
       <Image
         src={imgSrc}
         alt={altText}

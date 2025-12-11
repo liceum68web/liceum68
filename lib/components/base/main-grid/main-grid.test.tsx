@@ -1,7 +1,8 @@
 import { cleanup, render, screen } from "@testing-library/react";
-import { MainGrid } from "./main-grid";
-import { mainGridDataTestId } from "./constants";
 import { describe, it, expect, afterEach } from "vitest";
+
+import { mainGridDataTestId } from "./constants";
+import { MainGrid } from "./main-grid";
 
 describe("MainGrid", () => {
   afterEach(cleanup);
