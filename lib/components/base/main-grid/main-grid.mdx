@@ -1,0 +1,35 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as mainGridStories from './main-grid.stories';
+
+<Meta title="MDX/main-grid" of={mainGridStories} />
+
+# MainGrid
+
+The module includes `<MainGrid />` component for flexible grid-based layout structure in the application.
+
+<Canvas>
+	<Story of={mainGridStories.Default} />
+</Canvas>
+
+---
+
+## `<MainGrid />` Component
+
+The `<MainGrid />` component provides a responsive grid container for arranging child elements. It supports custom class names and additional props for layout customization.
+
+**Props:**
+- `className?: string` — Additional CSS classes for the grid container.
+- `id?: string` — Optional id for the grid container.
+- `children?: React.ReactNode` — Child elements to be rendered inside the grid.
+
+**Usage Example:**
+```tsx
+<MainGrid>
+	<div>Item 1</div>
+	<div>Item 2</div>
+</MainGrid>
+```
+
+**Remarks:**
+- Follows design tokens and responsive layout conventions.
+- Intended for main page layout and grid-based content organization.

@@ -1,0 +1,31 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as buttonStories from './button.stories';
+
+<Meta title="MDX/button" of={buttonStories} />
+
+# Button
+
+The module includes `<Button />` component and its subcomponents (`<Button.Icon />`, `<Button.Label />`) for flexible button composition.
+
+<Canvas>
+  <Story of={buttonStories.Default} />
+</Canvas>
+
+---
+
+## `<Button />` Component
+
+The `<Button />` component is a presentational button for the application. It renders a styled button element with support for icons, labels, and custom content.
+
+**Props:**
+- `variant?: string` — Visual style variant of the button (e.g., "primary", "secondary").
+- `size?: string` — Size of the button (e.g., "sm", "md", "lg").
+- `disabled?: boolean` — Disables the button if true.
+- `className?: string` — Additional CSS classes.
+- `children?: React.ReactNode` — Child components, typically icon and label.
+- `onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void` — Click event handler.
+
+**Usage Example:**
+```tsx
+<Button variant="primary" size="md">Click Me</Button>
+```

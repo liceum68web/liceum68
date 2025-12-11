@@ -1,0 +1,86 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as logoStories from './logo.stories';
+
+<Meta title="MDX/Logo" of={logoStories} />
+
+# Logo
+
+The module includes `<Logo />` component for displaying the application logo with navigation functionality.
+
+<Canvas>
+  <Story of={logoStories.Default} />
+</Canvas>
+
+---
+
+## `<Logo />` Component
+
+The `<Logo />` component is a navigational logo component that combines Next.js Image optimization with Link functionality. It renders a clickable logo that can navigate users to different sections of the application while maintaining performance through Next.js Image optimization.
+
+**Props:**
+- `href: string` — **Required.** The destination URL or route when the logo is clicked.
+- `imgSrc: string` — **Required.** The source URL of the logo image.
+- `width?: number` — Width of the logo image in pixels. Strongly recommended for Next.js Image optimization.
+- `height?: number` — Height of the logo image in pixels. Strongly recommended for Next.js Image optimization.
+- `altText?: string` — Alternative text for the image. Defaults to "logo" for accessibility.
+- `onClick?: VoidFunction` — Optional click handler function called when the logo is clicked.
+- `className?: string` — Additional CSS classes for custom styling.
+- `...props` — Additional props are spread to the Link component.
+
+**Note:** While `width` and `height` are optional in the component interface, they are strongly recommended for optimal performance with Next.js Image optimization. Without these props, Next.js may require additional configuration or show warnings.
+
+**Usage Examples:**
+
+**Basic Logo:**
+```tsx
+<Logo 
+  href="/" 
+  imgSrc="/logo.svg"
+  width={200}
+  height={60}
+/>
+```
+
+**Logo with Custom Styling:**
+```tsx
+<Logo 
+  href="/" 
+  imgSrc="/logo.svg"
+  width={150}
+  height={40}
+  altText="Company Brand Logo"
+  className="custom-logo-styles"
+/>
+```
+
+**Logo with Click Handler:**
+```tsx
+<Logo 
+  href="/dashboard" 
+  imgSrc="/logo.svg"
+  width={250}
+  height={70}
+  onClick={() => console.log('Logo clicked!')}
+  altText="Dashboard Logo"
+/>
+```
+
+**Logo with Additional Props:**
+```tsx
+<Logo 
+  href="/" 
+  imgSrc="/logo.svg"
+  width={200}
+  height={50}
+  data-testid="main-logo"
+  id="header-logo"
+/>
+```
+
+**Minimal Logo (Required Props Only):**
+```tsx
+<Logo 
+  href="/" 
+  imgSrc="/logo.svg"
+/>
+```

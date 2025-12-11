@@ -1,0 +1,100 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import * as headerStories from './header.stories';
+
+<Meta title="MDX/header" of={headerStories} />
+
+# Header
+
+The module includes `<Header />` component and its subcomponents (`<Header.LeftToolbar />`, `<Header.RightToolbar />`, `<Header.CenterToolbar />`, `<Header.NavMenu />` that serve as placeholders for respective sections of the header).
+
+<Canvas>
+  <Story of={headerStories.Default} />
+</Canvas>
+
+---
+
+## `<Header />` Component
+
+The `<Header />` component is a presentational header for the application. It renders the main header container with placeholders for navigation panels to host logo, navigation, and user controls along with a dropdown menu.
+
+**Props:**
+- `isNavMenuOpen?: boolean` — Controls whether the navigation menu drawer is expanded.
+- `className?: string` — Additional CSS classes.
+- `children?: React.ReactNode` — Child components, typically toolbars and nav menu.
+
+**Usage Example:**
+```tsx
+<Header />
+```
+
+**Remarks:**
+- Follows design tokens and responsive layout conventions.
+- Navigation items and theme controls are customizable via constants.
+
+---
+
+### `<Header.LeftToolbar />`
+
+Renders the left-aligned toolbar section within the header, typically for navigation or branding.
+
+**Props:**
+- `className?: string` — Additional CSS classes.
+- `children?: React.ReactNode` — Toolbar contents.
+
+**Usage Example:**
+```tsx
+<Header>
+  <Header.LeftToolbar>Left Toolbar</Header.LeftToolbar>
+</Header>
+```
+
+---
+
+### `<Header.RightToolbar />`
+
+Renders the right-aligned toolbar section within the header, typically for user controls or actions.
+
+**Props:**
+- `className?: string` — Additional CSS classes.
+- `children?: React.ReactNode` — Toolbar contents.
+
+**Usage Example:**
+```tsx
+<Header>
+  <Header.RightToolbar>Right Toolbar</Header.RightToolbar>
+</Header>
+```
+
+---
+
+### `<Header.CenterToolbar />`
+
+Renders the center-aligned toolbar section within the header, typically for search or central actions.
+
+**Props:**
+- `className?: string` — Additional CSS classes.
+- `children?: React.ReactNode` — Toolbar contents.
+
+**Usage Example:**
+```tsx
+<Header>
+  <Header.CenterToolbar>Center Toolbar</Header.CenterToolbar>
+</Header>
+```
+
+---
+
+### `<Header.NavMenu />`
+
+Renders the navigation menu, including links and menu controls, inside the navigation menu drawer.
+
+**Props:**
+- `className?: string` — Additional CSS classes.
+- `children?: React.ReactNode` — Navigation menu contents.
+
+**Usage Example:**
+```tsx
+<Header>
+  <Header.NavMenu>Nav Menu Drawer</Header.NavMenu>
+</Header>
+```
