@@ -1,11 +1,12 @@
 import { Meta, StoryObj } from "@storybook/nextjs";
+
 import { IButtonProps, Button } from "./button";
 import { ButtonPriority, ButtonVariant } from "./types";
 
 type StoryProps = IButtonProps;
 
 const meta: Meta<StoryProps> = {
-  title: "Molecules/Button",
+  title: "Base/Button",
   component: Button,
 };
 

@@ -1,6 +1,6 @@
-import { describe, it, expect, afterEach } from "vitest";
 import { cleanup, render, screen } from "@testing-library/react";
-import { Header } from "./header";
+import { describe, it, expect, afterEach } from "vitest";
+
 import {
   applicationHeaderTestId,
   mainPanelTestId,
@@ -8,6 +8,7 @@ import {
   navMenuDrawerTestId,
   rightToolbarTestId,
 } from "./constants";
+import { Header } from "./header";
 
 describe("<Header />", () => {
   afterEach(cleanup);

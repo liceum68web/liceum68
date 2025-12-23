@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-import { IBaseProps } from "@/lib/types";
-import { filterChildrenByDisplayNames } from "@/lib/utils";
 import clsx from "clsx";
 
-import * as styles from "./header.styles";
+import { IBaseProps } from "@/lib/types";
+import { filterChildrenByDisplayNames } from "@/lib/utils";
+
 import {
   rightToolbarDisplayName,
   leftToolbarDisplayName,
@@ -18,6 +17,7 @@ import {
   leftToolbarTestId,
   rightToolbarTestId,
 } from "./constants";
+import * as styles from "./header.styles";
 
 export interface IHeaderProps extends IBaseProps {
   isNavMenuOpen?: boolean;
@@ -175,14 +175,21 @@ const Header = ({
       data-testid={applicationHeaderTestId}
       className={clsx(styles.headerContainerClass, className)}
     >
-      <div data-testid={mainPanelTestId} className={styles.mainPanelClass}>
+      <div
+        data-testid={mainPanelTestId}
+        className={clsx(styles.mainPanelClass, mainPanelTestId)}
+      >
         {toolbars}
       </div>
       <div
         data-testid={navMenuDrawerTestId}
-        className={clsx(styles.drawerClass, {
-          [styles.drawerExpandedClass]: isNavMenuOpen,
-        })}
+        className={clsx(
+          styles.drawerClass,
+          {
+            [styles.drawerExpandedClass]: isNavMenuOpen,
+          },
+          navMenuDrawerTestId,
+        )}
       >
         {navMenu}
       </div>

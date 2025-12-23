@@ -1,11 +1,13 @@
 import { Meta, StoryObj } from "@storybook/nextjs";
-import { ILogoProps, Logo } from "./logo";
+
 import { AppRoutes } from "@/lib/types";
+
+import { ILogoProps, Logo } from "./logo";
 
 type StoryProps = ILogoProps;
 
 const meta: Meta<StoryProps> = {
-  title: "Molecules/Logo",
+  title: "Base/Logo",
   component: Logo,
 };
 
@@ -16,7 +18,7 @@ type Story = StoryObj<StoryProps>;
 const Template: Story = {
   args: {
     href: AppRoutes.HOME,
-    imgSrc: "/logo.svg",
+    imgSrc: "/app-logo.svg",
     altText: "App Logo",
     width: 313,
     height: 35,

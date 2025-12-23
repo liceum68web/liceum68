@@ -1,9 +1,11 @@
-import { IBaseProps } from "@/lib/types";
 import clsx from "clsx";
+import { HTMLAttributes } from "react";
+
+import { IBaseProps } from "@/lib/types";
+
 import { buttonClass, disabledButtonClass } from "./button.styles";
 import { variantClassMap, styleClassMap } from "./constants";
 import { ButtonPriority, ButtonVariant } from "./types";
-import { HTMLAttributes } from "react";
 
 export interface IButtonProps
   extends IBaseProps,

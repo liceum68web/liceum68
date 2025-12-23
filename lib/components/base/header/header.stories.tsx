@@ -1,10 +1,11 @@
 import { Meta, StoryObj } from "@storybook/nextjs";
+
 import { IHeaderProps, Header } from "./header";
 
 type StoryProps = IHeaderProps;
 
 const meta: Meta<StoryProps> = {
-  title: "Organisms/Header",
+  title: "Base/Header",
   component: Header,
 };
 

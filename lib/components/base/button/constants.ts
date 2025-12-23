@@ -1,4 +1,3 @@
-import { ButtonPriority, ButtonVariant } from "./types";
 import {
   primaryButtonClass,
   secondaryButtonClass,
@@ -7,6 +6,7 @@ import {
   outlineButtonClass,
   ghostButtonClass,
 } from "./button.styles";
+import { ButtonPriority, ButtonVariant } from "./types";
 
 export const variantClassMap = {
   [ButtonPriority.PRIMARY]: primaryButtonClass,

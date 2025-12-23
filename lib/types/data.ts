@@ -10,6 +10,6 @@ export enum APIMiddlewareKeys {
 }
 
 export type APIMiddleware = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   [middlewareKey in APIMiddlewareKeys]?: (args: unknown) => unknown;
 };

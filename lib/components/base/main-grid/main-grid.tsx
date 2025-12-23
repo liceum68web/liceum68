@@ -1,6 +1,8 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-import { IBaseProps } from "@/lib/types";
+ 
 import clsx from "clsx";
+
+import { IBaseProps } from "@/lib/types";
+
 import { mainGridDataTestId } from "./constants";
 import { mainGridClass } from "./main-grid.styles";
 

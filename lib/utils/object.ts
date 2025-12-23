@@ -1,5 +1,7 @@
 import { camelCase, isArray, isEmpty, isObject } from "lodash";
 
+import { kebabToPascal } from "./text";
+
 /**
  * Recursively converts all object keys to camelCase.
  *
@@ -36,7 +38,7 @@ export const keysToCamelCase = (srcObj: unknown): unknown => {
  */
 export const createPropertyIndex = (
   srcObj: unknown,
-  key: string
+  key: string,
 ): Map<string, unknown> => {
   const index = new Map<string, unknown>();
 
@@ -77,7 +79,52 @@ export const createPropertyIndex = (
  */
 export const indexedLookUp = (
   index: Map<string, unknown>,
-  keyValue: string
+  keyValue: string,
 ): unknown => {
   return index.get(keyValue) || null;
+};
+
+/**
+ * Recursively traverses an object/array and converts icon.name values from kebab-case to PascalCase.
+ * @param srcObj - The source object, array, or primitive to process
+ * @returns A new object with transformed icon.name values
+ */
+export const iconNameToPascalCase = <T>(srcObj: T): T => {
+  if (srcObj === null || srcObj === undefined) {
+    return srcObj;
+  }
+
+  if (Array.isArray(srcObj)) {
+    return srcObj.map((item) => iconNameToPascalCase(item)) as T;
+  }
+
+  if (typeof srcObj === "object") {
+    const result: Record<string, unknown> = {};
+
+    for (const [key, value] of Object.entries(srcObj)) {
+      if (key === "icon" && typeof value === "object" && value !== null) {
+        const iconObj = value as Record<string, unknown>;
+        result[key] = {
+          ...iconObj,
+          name:
+            typeof iconObj.name === "string"
+              ? kebabToPascal(iconObj.name)
+              : iconObj.name,
+        };
+        // Recursively process other properties of the icon object
+        for (const [iconKey, iconValue] of Object.entries(iconObj)) {
+          if (iconKey !== "name") {
+            (result[key] as Record<string, unknown>)[iconKey] =
+              iconNameToPascalCase(iconValue);
+          }
+        }
+      } else {
+        result[key] = iconNameToPascalCase(value);
+      }
+    }
+
+    return result as T;
+  }
+
+  return srcObj;
 };
