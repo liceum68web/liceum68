@@ -1,12 +1,13 @@
 "use client";
 
+import clsx from "clsx";
 import { ChevronDown, LucideProps, Menu, Star, X } from "lucide-react";
 import * as icons from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useRef, useState, MouseEvent } from "react";
-import { useClickAway } from "react-use";
+import { useRef, useState, MouseEvent, ComponentType } from "react";
 
 import { Button, Header, ILogoProps, Logo } from "@/lib/components/base";
+import { usePointerOut } from "@/lib/hooks";
 import { IBaseProps, RelationTo } from "@/lib/types";
 import { RemoteActions } from "@/lib/utils";
 
@@ -23,6 +24,8 @@ import {
   ctaButtonLabelClass,
   ctaButtonIconClass,
   navmenuClass,
+  navbarItemIconContainerClass,
+  navbarCurrentItemIconContainerClass,
 } from "./global-header.styles";
 import { GlobalMenu } from "./global-menu";
 import {
@@ -32,32 +35,37 @@ import {
 } from "./global-navbar";
 import { IMenuCardProps, MenuCard } from "./menu-card";
 
-const renderNavMenuItem = (item: IMenuCardProps) => {
-  const { id, label, description, icon, href } = item;
+const renderNavMenuItem =
+  (collapseNavmenu: VoidFunction) => (item: IMenuCardProps) => {
+    const { id, label, description, icon, href } = item;
 
-  return (
-    <GlobalMenu.Item key={id}>
-      <MenuCard
-        label={label}
-        description={description}
-        icon={icon}
-        href={href}
-      />
-    </GlobalMenu.Item>
-  );
-};
+    return (
+      <GlobalMenu.Item key={id}>
+        <MenuCard
+          label={label}
+          description={description}
+          icon={icon}
+          href={href}
+          onClick={collapseNavmenu}
+        />
+      </GlobalMenu.Item>
+    );
+  };
 
 const renderGlobalNavbarItem =
   (
-    onNavbarButtonClick: (id: NavbarItem["id"]) => void,
+    currentNavbarItemId: NavbarItem["id"] | undefined,
+    onNavButtonSelect: (id: NavbarItem["id"]) => void,
     onNavbarLinkClick: VoidFunction,
+    handleNavbarLinkHover: VoidFunction,
   ) =>
   (item: NavbarItem) => {
     const { id, relationTo, ...navbarItemProps } = item;
-    const handleButtonClick = (event: MouseEvent) => {
+    const isCurrentItem = currentNavbarItemId === id;
+    const handleButtonMouseEnter = (event: MouseEvent) => {
       event.preventDefault();
       event.stopPropagation();
-      onNavbarButtonClick(id);
+      onNavButtonSelect(id);
     };
 
     switch (relationTo) {
@@ -67,6 +75,7 @@ const renderGlobalNavbarItem =
             {...(navbarItemProps as IGlobalNavbarLinkItemProps)}
             key={id}
             onClick={onNavbarLinkClick}
+            onMouseEnter={handleNavbarLinkHover}
             className={navbarButtonClass}
           />
         );
@@ -75,13 +84,21 @@ const renderGlobalNavbarItem =
           <GlobalNavbar.ButtonItem
             {...(navbarItemProps as IGlobalNavbarButtonItemProps)}
             key={id}
-            onClick={handleButtonClick as VoidFunction}
+            onMouseEnter={handleButtonMouseEnter as VoidFunction}
             className={navbarButtonClass}
           >
             <span key="label" className={navbarButtonLabelClass}>
               {navbarItemProps.label}
             </span>
-            <ChevronDown key="icon" size={16} />
+            <span
+              key="icon"
+              className={clsx(
+                navbarItemIconContainerClass,
+                isCurrentItem && navbarCurrentItemIconContainerClass,
+              )}
+            >
+              <ChevronDown size={16} />
+            </span>
           </GlobalNavbar.ButtonItem>
         );
       default:
@@ -112,7 +129,8 @@ export const GlobalHeader = ({
   ctaButtonIcon,
   navmenu = {},
 }: IGlobalHeaderProps) => {
-  const clickAwayColdSpotRef = useRef<HTMLUListElement>(null);
+  const navbarRef = useRef<HTMLUListElement>(null);
+  const globalMenuRef = useRef<HTMLUListElement>(null);
 
   const router = useRouter();
 
@@ -124,7 +142,7 @@ export const GlobalHeader = ({
   const navmenuItems = currentNavbarItemId ? navmenu[currentNavbarItemId] : [];
   const CTAIcon =
     ctaButtonIcon && icons[ctaButtonIcon]
-      ? (icons[ctaButtonIcon] as React.ComponentType<IBaseProps & LucideProps>)
+      ? (icons[ctaButtonIcon] as ComponentType<IBaseProps & LucideProps>)
       : Star;
 
   const collapseNavmenu = () => {
@@ -148,13 +166,7 @@ export const GlobalHeader = ({
   const handleNavbarButtonClick = (
     currentItemId: NavbarItem["id"] | undefined,
   ) => {
-    if (currentNavbarItemId === currentItemId) {
-      collapseNavmenu();
-
-      return;
-    } else {
-      setCurrentNavbarItemId(currentItemId);
-    }
+    setCurrentNavbarItemId(currentItemId);
 
     if (!isNavMenuOpen) {
       setIsNavMenuOpen(true);
@@ -163,6 +175,11 @@ export const GlobalHeader = ({
   const handleNavbarLinkClick = () => {
     collapseNavmenu();
   };
+
+  const handleNavbarLinkHover = () => {
+    collapseNavmenu();
+  };
+
   const handleBurgerMenuClick = () => {
     setIsNavMenuOpen(true);
     setCurrentNavbarItemId(undefined);
@@ -172,12 +189,7 @@ export const GlobalHeader = ({
     collapseNavmenu();
   };
 
-  useClickAway(clickAwayColdSpotRef, () => {
-    if (!isNavMenuOpen) {
-      return;
-    }
-    collapseNavmenu();
-  }, ["click"]);
+  usePointerOut([navbarRef, globalMenuRef], collapseNavmenu);
 
   return (
     <Header className={globalHeaderClass} isNavMenuOpen={isNavMenuOpen}>
@@ -185,11 +197,13 @@ export const GlobalHeader = ({
         {logo && <Logo {...logo} className={appLogoClass} />}
       </Header.LeftToolbar>
       <Header.CenterToolbar className={centerToolbarClass}>
-        <GlobalNavbar ref={clickAwayColdSpotRef} className={globalNavbarClass}>
+        <GlobalNavbar ref={navbarRef} className={globalNavbarClass}>
           {navbarItems?.map(
             renderGlobalNavbarItem(
+              currentNavbarItemId,
               handleNavbarButtonClick,
               handleNavbarLinkClick,
+              handleNavbarLinkHover,
             ),
           )}
         </GlobalNavbar>
@@ -211,8 +225,12 @@ export const GlobalHeader = ({
       </Header.RightToolbar>
       {!!navmenuItems?.length && (
         <Header.NavMenu>
-          <GlobalMenu ref={clickAwayColdSpotRef} className={navmenuClass}>
-            {navmenuItems.map(renderNavMenuItem)}
+          <GlobalMenu
+            ref={globalMenuRef}
+            className={navmenuClass}
+            onMouseLeave={collapseNavmenu}
+          >
+            {navmenuItems.map(renderNavMenuItem(collapseNavmenu))}
           </GlobalMenu>
         </Header.NavMenu>
       )}

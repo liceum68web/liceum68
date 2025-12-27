@@ -4,7 +4,13 @@
 :root {
   --background: var(--color-gray-50);
   --foreground: var(--color-gray-700);
-  --fill-gradient: linear-gradient(147deg, #2972d6 0%, #660b74 100%);
+  --color-start-blue: #2972d6;
+  --color-end-purple: #660b74;
+  --fill-gradient: linear-gradient(
+    147deg,
+    var(--color-start-blue) 0%,
+    var(--color-end-purple) 100%
+  );
 }
 
 body {

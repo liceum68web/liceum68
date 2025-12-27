@@ -15,6 +15,7 @@ export interface IMenuCardProps extends IBaseProps {
   description?: string;
   icon?: string;
   href?: string;
+  onClick?: VoidFunction;
 }
 
 export const MenuCard = ({
@@ -22,13 +23,14 @@ export const MenuCard = ({
   description,
   icon,
   href = "",
+  onClick,
 }: IMenuCardProps) => {
   // TODO: mitigate type issue later
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const IconComponent = icon ? (icons as any)[icon] : null;
 
   return (
-    <Link href={href} className={menuCardClass}>
+    <Link href={href} className={menuCardClass} onClick={onClick}>
       {IconComponent && (
         <span className={menuCardIconClass}>
           <IconComponent size={24} />
@@ -36,7 +38,9 @@ export const MenuCard = ({
       )}
       {label && <span className={menuCardLabelClass}>{label}</span>}
       {description && (
-        <span className={menuCardDescriptionClass}>{description}</span>
+        <span className={menuCardDescriptionClass}>
+          <span>{description}</span>
+        </span>
       )}
     </Link>
   );

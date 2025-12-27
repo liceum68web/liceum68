@@ -25,12 +25,16 @@ export interface IGlobalNavbarLinkItemProps extends IBaseProps {
   label?: string;
   route?: string;
   onClick?: VoidFunction;
+  onMouseEnter?: VoidFunction;
+  onMouseLeave?: VoidFunction;
 }
 
 const GlobalNavbarLinkItem = ({
   label,
   route,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
   className,
 }: IGlobalNavbarLinkItemProps) => {
   return (
@@ -38,7 +42,12 @@ const GlobalNavbarLinkItem = ({
       className={clsx(globalNavbarLinkItemClass, className)}
       data-testid={globalNavbarLinkItemTestId}
     >
-      <Link href={route as string} onClick={onClick}>
+      <Link
+        href={route as string}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
         {label}
       </Link>
     </li>
@@ -81,16 +90,25 @@ GlobalNavbarLinkOutItem.displayName = globalNavbarLinkOutItemDisplayName;
 export interface IGlobalNavbarButtonItemProps extends IBaseProps {
   label?: string;
   onClick?: VoidFunction;
+  onMouseEnter?: VoidFunction;
+  onMouseLeave?: VoidFunction;
 }
 
 const GlobalNavbarButtonItem = ({
   children,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
   className,
 }: IGlobalNavbarButtonItemProps) => {
   return (
     <li className={className} data-testid={globalNavbarButtonItemTestId}>
-      <Button className={globalNavbarButtonItemClass} onClick={onClick}>
+      <Button
+        className={globalNavbarButtonItemClass}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
         {children}
       </Button>
     </li>
