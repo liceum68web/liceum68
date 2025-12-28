@@ -17,7 +17,7 @@ const defaultDelay = 500;
 export const usePointerOut = (
   coldSpotRefs: RefObject<HTMLElement | null>[],
   onHoverOut: VoidFunction,
-  eventTypes: string[] = ["mouseleave", "click"],
+  eventTypes: string[] = ["mouseleave"],
   delay = defaultDelay,
 ) => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);

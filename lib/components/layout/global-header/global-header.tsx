@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState, MouseEvent, ComponentType } from "react";
 
 import { Button, Header, ILogoProps, Logo } from "@/lib/components/base";
-import { usePointerOut } from "@/lib/hooks";
+import { useMediaQuery, usePointerOut } from "@/lib/hooks";
 import { IBaseProps, RelationTo } from "@/lib/types";
 import { RemoteActions } from "@/lib/utils";
 
@@ -28,6 +28,12 @@ import {
   navbarCurrentItemIconContainerClass,
   navmenuGroupContainerClass,
   menuGroupTitleClass,
+  burgerGroupChevronClass,
+  collapsibleContainerClass,
+  expandedContainerClass,
+  navMenuContainerClass,
+  burgerMenuFooterClass,
+  mobileCtaButtonClass,
 } from "./global-header.styles";
 import { GlobalMenu } from "./global-menu";
 import {
@@ -56,14 +62,41 @@ const renderNavMenuItem =
   };
 
 const renderNavMenuGroup =
-  (collapseNavmenu: VoidFunction) =>
+  (
+    collapseNavmenu: VoidFunction,
+    currentBurgerGroupId: string | undefined,
+    handleBurgerGroupHeaderClick: (id: string) => void,
+  ) =>
   ({ title, id, items }: NavmenuGroup) => {
+    const isCurrentMenuGroup = currentBurgerGroupId === id;
     return (
       <GlobalMenu.Item key={id} className={navmenuGroupContainerClass}>
-        <h3 className={menuGroupTitleClass}>{title}</h3>
-        <ul className={navmenuGroupClass}>
-          {items.map(renderNavMenuItem(collapseNavmenu))}
-        </ul>
+        <button
+          onClick={() => handleBurgerGroupHeaderClick(id)}
+          className={menuGroupTitleClass}
+        >
+          {title}
+          <span
+            key="icon"
+            className={clsx(
+              navbarItemIconContainerClass,
+              burgerGroupChevronClass,
+              isCurrentMenuGroup && navbarCurrentItemIconContainerClass,
+            )}
+          >
+            <ChevronDown size={16} />
+          </span>
+        </button>
+        <div
+          className={clsx(
+            collapsibleContainerClass,
+            isCurrentMenuGroup && expandedContainerClass,
+          )}
+        >
+          <ul className={navmenuGroupClass}>
+            {items.map(renderNavMenuItem(collapseNavmenu))}
+          </ul>
+        </div>
       </GlobalMenu.Item>
     );
   };
@@ -155,10 +188,15 @@ export const GlobalHeader = ({
   const navbarRef = useRef<HTMLUListElement>(null);
   const globalMenuRef = useRef<HTMLUListElement>(null);
 
+  const { isMatch: isAboveMd } = useMediaQuery("(min-width: 768px)");
+
   const router = useRouter();
 
   const [isNavMenuOpen, setIsNavMenuOpen] = useState(false);
   const [currentNavbarItemId, setCurrentNavbarItemId] = useState<
+    NavbarItem["id"] | undefined
+  >();
+  const [currentBurgerGroupId, setCurrentBurgerGroupId] = useState<
     NavbarItem["id"] | undefined
   >();
   const navmenuItemGroups =
@@ -176,6 +214,7 @@ export const GlobalHeader = ({
     }
     setIsNavMenuOpen(false);
     setCurrentNavbarItemId(undefined);
+    setCurrentBurgerGroupId(undefined);
   };
   const handleCtaButtonClick = () => {
     const remoteActions = RemoteActions({
@@ -187,6 +226,8 @@ export const GlobalHeader = ({
     if (remoteAction) {
       remoteAction(Array<unknown | unknown[]>().concat(ctaActionParams));
     }
+
+    collapseNavmenu();
   };
   const handleNavbarButtonSelect = (
     currentItemId: NavbarItem["id"] | undefined,
@@ -217,7 +258,15 @@ export const GlobalHeader = ({
     collapseNavmenu();
   };
 
-  usePointerOut([navbarRef, globalMenuRef], collapseNavmenu);
+  const handleBurgerGroupHeaderClick = (id: string) => {
+    setCurrentBurgerGroupId(id);
+  };
+
+  usePointerOut([navbarRef, globalMenuRef], () => {
+    if (isAboveMd) {
+      collapseNavmenu();
+    }
+  });
 
   return (
     <Header className={globalHeaderClass} isNavMenuOpen={isNavMenuOpen}>
@@ -252,10 +301,24 @@ export const GlobalHeader = ({
         )}
       </Header.RightToolbar>
       {!!navmenuItemGroups?.length && (
-        <Header.NavMenu>
-          <GlobalMenu ref={globalMenuRef} onMouseLeave={collapseNavmenu}>
-            {navmenuItemGroups.map(renderNavMenuGroup(collapseNavmenu))}
+        <Header.NavMenu className={navMenuContainerClass}>
+          <GlobalMenu ref={globalMenuRef}>
+            {navmenuItemGroups.map(
+              renderNavMenuGroup(
+                collapseNavmenu,
+                currentBurgerGroupId,
+                handleBurgerGroupHeaderClick,
+              ),
+            )}
           </GlobalMenu>
+          <div className={burgerMenuFooterClass}>
+            <Button
+              className={mobileCtaButtonClass}
+              onClick={handleCtaButtonClick}
+            >
+              {ctaButtonLabel}
+            </Button>
+          </div>
         </Header.NavMenu>
       )}
     </Header>

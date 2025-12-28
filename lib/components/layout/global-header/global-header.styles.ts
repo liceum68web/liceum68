@@ -16,7 +16,17 @@ export const ctaButtonClass =
 export const ctaButtonLabelClass = "hidden lg:inline-block whitespace-nowrap";
 export const ctaButtonIconClass = "inline-block lg:hidden";
 export const navmenuGroupClass =
-  "grid grid-cols-1 md:grid-cols-2 gap-[unset] md:gap-2";
+  "grid grid-cols-1 md:grid-cols-2 gap-[unset] md:gap-2 min-h-0";
+export const collapsibleContainerClass =
+  "grid [grid-template-rows:0fr] md:[grid-template-rows:1fr] overflow-hidden transition-[grid-template-rows] duration-200";
+export const expandedContainerClass = "grid [grid-template-rows:1fr]";
 export const navmenuGroupContainerClass = "flex flex-col p-4";
 export const menuGroupTitleClass =
-  "text-xs font-bold tracking-[0.25rem] uppercase mb-2 border-b border-gray-300 pb-1";
+  "flex justify-between text-xs font-bold tracking-[0.25rem] uppercase mb-2 border-b border-gray-300 pb-1 cursor-pointer md:cursor-default md:pointer-events-none truncate";
+export const burgerGroupChevronClass = "md:hidden flex";
+export const navMenuContainerClass =
+  "max-md:h-[calc(100vh-90px)] [&>div]:flex [&>div]:flex-col [&>div]:justify-between overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]";
+export const burgerMenuFooterClass =
+  "flex md:hidden flex-col p-4 gap-2 border-t border-gray-300 mt-auto";
+export const mobileCtaButtonClass =
+  "[background:var(--fill-gradient)] w-full text-white px-4 py-2 rounded-md hover:opacity-90 transition-opacity";
