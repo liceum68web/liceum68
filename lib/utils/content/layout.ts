@@ -16,6 +16,27 @@ import {
 
 import { buildMediaUrl } from "./media";
 
+interface TopicItem {
+  id: string;
+  label: string;
+  description: string;
+  icon: string | undefined;
+  href: string;
+}
+
+interface Topic {
+  id: string;
+  name: string;
+  description: string;
+  icon?: { name: string };
+  category: { id: string };
+}
+
+interface Page {
+  topic?: { id: string };
+  route: string;
+}
+
 // TODO: Revise carefully the implementation it surely
 // has some issues and incomplete parts
 
@@ -46,7 +67,7 @@ export const LayoutMappers = (layoutContent: ILayoutContentDto) => {
 
   const mapContentToHeaderProps = (): IGlobalHeaderProps => {
     let navbarItems: IGlobalHeaderProps["navbarItems"] | null = null;
-    let navmenu: IGlobalHeaderProps["navmenu"] | null = null;
+    let navmenuGroups: IGlobalHeaderProps["navmenuGroups"] | null = null;
 
     const logo = mapContentToLogoProps();
     const ctaButtonLabel = lookupLayoutContent("data.layout.action.name");
@@ -74,40 +95,43 @@ export const LayoutMappers = (layoutContent: ILayoutContentDto) => {
       const pagesContent = lookupLayoutContent("data.pages.docs");
 
       if (Array.isArray(topicsContent)) {
-        navmenu = navbarItemsContent.reduce(
-          (acc, { relationTo, value: { id } }) => {
+        navmenuGroups = navbarItemsContent.reduce(
+          (acc, { relationTo, value: { name, id } }) => {
             if (relationTo !== RelationTo.CATEGORIES) {
               return acc;
             }
 
-            const topicsInCategory = topicsContent.reduce((acc, topic) => {
-              if (topic.category.id !== id) {
+            const topicsInCategory = topicsContent.reduce(
+              (acc: TopicItem[], topic: Topic) => {
+                if (topic.category.id !== id) {
+                  return acc;
+                }
+                const topicId = topic.id;
+
+                const topicRoute =
+                  pagesContent.find((page: Page) => page.topic?.id === topicId)
+                    ?.route ?? "";
+
+                acc.push({
+                  id: topicId,
+                  label: topic.name,
+                  description: topic.description,
+                  icon: topic.icon?.name,
+                  href: topicRoute,
+                });
+
                 return acc;
-              }
-              const topicId = topic.id;
-
-              const topicRoute =
-                pagesContent.find((page: any) => page.topic?.id === topicId)
-                  ?.route ?? "";
-
-              acc.push({
-                id: topicId,
-                label: topic.name,
-                description: topic.description,
-                icon: topic.icon?.name,
-                href: topicRoute,
-              });
-
-              return acc;
-            }, []);
+              },
+              [] as TopicItem[],
+            );
 
             if (topicsInCategory.length > 0) {
-              acc[id] = topicsInCategory;
+              acc[id] = { id, title: name, items: topicsInCategory };
             }
 
             return acc;
           },
-          {} as IGlobalHeaderProps["navmenu"],
+          {} as IGlobalHeaderProps["navmenuGroups"],
         );
       }
     }
@@ -119,7 +143,7 @@ export const LayoutMappers = (layoutContent: ILayoutContentDto) => {
         ctaButtonIcon,
         ctaActionType,
         ctaActionParams,
-        navmenu,
+        navmenuGroups,
         logo,
       },
       isNil,

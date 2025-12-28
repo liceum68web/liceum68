@@ -23,9 +23,11 @@ import {
   ctaButtonClass,
   ctaButtonLabelClass,
   ctaButtonIconClass,
-  navmenuClass,
+  navmenuGroupClass,
   navbarItemIconContainerClass,
   navbarCurrentItemIconContainerClass,
+  navmenuGroupContainerClass,
+  menuGroupTitleClass,
 } from "./global-header.styles";
 import { GlobalMenu } from "./global-menu";
 import {
@@ -35,19 +37,33 @@ import {
 } from "./global-navbar";
 import { IMenuCardProps, MenuCard } from "./menu-card";
 
+const selectAllId = "all";
+
 const renderNavMenuItem =
   (collapseNavmenu: VoidFunction) => (item: IMenuCardProps) => {
     const { id, label, description, icon, href } = item;
 
     return (
-      <GlobalMenu.Item key={id}>
-        <MenuCard
-          label={label}
-          description={description}
-          icon={icon}
-          href={href}
-          onClick={collapseNavmenu}
-        />
+      <MenuCard
+        key={id}
+        label={label}
+        description={description}
+        icon={icon}
+        href={href}
+        onClick={collapseNavmenu}
+      />
+    );
+  };
+
+const renderNavMenuGroup =
+  (collapseNavmenu: VoidFunction) =>
+  ({ title, id, items }: NavmenuGroup) => {
+    return (
+      <GlobalMenu.Item key={id} className={navmenuGroupContainerClass}>
+        <h3 className={menuGroupTitleClass}>{title}</h3>
+        <ul className={navmenuGroupClass}>
+          {items.map(renderNavMenuItem(collapseNavmenu))}
+        </ul>
       </GlobalMenu.Item>
     );
   };
@@ -110,14 +126,21 @@ type NavbarItem = (
   | IGlobalNavbarLinkItemProps
   | IGlobalNavbarButtonItemProps
 ) & { id: string; relationTo: RelationTo };
+
+interface NavmenuGroup {
+  id: string;
+  title: string;
+  items: IMenuCardProps[];
+}
+
 export interface IGlobalHeaderProps extends IBaseProps {
   navbarItems?: NavbarItem[];
   logo?: ILogoProps;
   ctaButtonLabel?: string;
   ctaActionType?: keyof ReturnType<typeof RemoteActions>;
-  ctaActionParams?: unknown | unknown[];
+  ctaActionParams?: unknown[];
   ctaButtonIcon?: keyof typeof icons;
-  navmenu?: Record<string, IMenuCardProps[]>;
+  navmenuGroups?: Record<string, NavmenuGroup>;
 }
 
 export const GlobalHeader = ({
@@ -127,7 +150,7 @@ export const GlobalHeader = ({
   ctaActionType,
   ctaActionParams,
   ctaButtonIcon,
-  navmenu = {},
+  navmenuGroups = {},
 }: IGlobalHeaderProps) => {
   const navbarRef = useRef<HTMLUListElement>(null);
   const globalMenuRef = useRef<HTMLUListElement>(null);
@@ -138,8 +161,10 @@ export const GlobalHeader = ({
   const [currentNavbarItemId, setCurrentNavbarItemId] = useState<
     NavbarItem["id"] | undefined
   >();
-
-  const navmenuItems = currentNavbarItemId ? navmenu[currentNavbarItemId] : [];
+  const navmenuItemGroups =
+    (currentNavbarItemId === selectAllId && Object.values(navmenuGroups)) ||
+    (currentNavbarItemId && [navmenuGroups[currentNavbarItemId]]) ||
+    [];
   const CTAIcon =
     ctaButtonIcon && icons[ctaButtonIcon]
       ? (icons[ctaButtonIcon] as ComponentType<IBaseProps & LucideProps>)
@@ -163,7 +188,7 @@ export const GlobalHeader = ({
       remoteAction(Array<unknown | unknown[]>().concat(ctaActionParams));
     }
   };
-  const handleNavbarButtonClick = (
+  const handleNavbarButtonSelect = (
     currentItemId: NavbarItem["id"] | undefined,
   ) => {
     setCurrentNavbarItemId(currentItemId);
@@ -181,8 +206,11 @@ export const GlobalHeader = ({
   };
 
   const handleBurgerMenuClick = () => {
-    setIsNavMenuOpen(true);
-    setCurrentNavbarItemId(undefined);
+    setCurrentNavbarItemId(selectAllId);
+
+    if (!isNavMenuOpen) {
+      setIsNavMenuOpen(true);
+    }
   };
 
   const handleCloseMenuClick = () => {
@@ -201,7 +229,7 @@ export const GlobalHeader = ({
           {navbarItems?.map(
             renderGlobalNavbarItem(
               currentNavbarItemId,
-              handleNavbarButtonClick,
+              handleNavbarButtonSelect,
               handleNavbarLinkClick,
               handleNavbarLinkHover,
             ),
@@ -223,14 +251,10 @@ export const GlobalHeader = ({
           </Button>
         )}
       </Header.RightToolbar>
-      {!!navmenuItems?.length && (
+      {!!navmenuItemGroups?.length && (
         <Header.NavMenu>
-          <GlobalMenu
-            ref={globalMenuRef}
-            className={navmenuClass}
-            onMouseLeave={collapseNavmenu}
-          >
-            {navmenuItems.map(renderNavMenuItem(collapseNavmenu))}
+          <GlobalMenu ref={globalMenuRef} onMouseLeave={collapseNavmenu}>
+            {navmenuItemGroups.map(renderNavMenuGroup(collapseNavmenu))}
           </GlobalMenu>
         </Header.NavMenu>
       )}

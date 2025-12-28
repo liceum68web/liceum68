@@ -31,13 +31,11 @@ GlobalMenuItem.displayName = globalMenuItemDisplayName;
 
 export interface IGlobalMenuProps extends IBaseProps {
   ref?: React.Ref<HTMLUListElement>;
-  isMobile?: boolean;
   onMouseLeave?: VoidFunction;
 }
 
 const GlobalMenu = ({
   ref,
-  isMobile,
   className,
   children,
   onMouseLeave,
@@ -48,11 +46,7 @@ const GlobalMenu = ({
     <ul
       onMouseLeave={onMouseLeave}
       ref={ref}
-      className={clsx(
-        globalMenuClass,
-        { [globalMenuDesktopClass]: !isMobile },
-        className,
-      )}
+      className={clsx(globalMenuClass, className)}
       data-testid={globalMenuTestId}
     >
       {globalMenuItems}

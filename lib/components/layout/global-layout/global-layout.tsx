@@ -31,11 +31,17 @@ export const GlobalLayout = ({ content, children }: IGlobalLayoutProps) => {
 
   return (
     <div className={globalLayoutContainerClass}>
-      <div className={globalLayoutHeaderContainerClass}>
+      <div
+        data-testid="sticky-page-header"
+        className={globalLayoutHeaderContainerClass}
+      >
         <UtilityBar {...utilityBarProps} />
         <GlobalHeader {...headerProps} />
       </div>
-      <div className={globalLayoutMainContainerClass}>
+      <div
+        data-testid="scrollable-page-content"
+        className={globalLayoutMainContainerClass}
+      >
         <main className={globalMainClass}>{children}</main>
         <GlobalFooter {...footerProps} />
       </div>
