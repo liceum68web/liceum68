@@ -2,22 +2,45 @@
 // if any significant performance issues arise.
 
 import { clsx } from "clsx";
+import { Calendar1Icon } from "lucide-react";
 import Image, { ImageProps } from "next/image";
 
 import { IBaseProps } from "@/lib/types";
 
+import { Tag } from "../../base";
 import {
   articleContainerClass,
+  articleTextClass,
+  articleTitleClass,
   bannerContainerClass,
   bannerImageClass,
+  delimiterClass,
+  publicationDateClass,
+  tagContainerClass,
 } from "./article.styles";
+import { formatToDdMmmmYyyy } from "./utils";
+
+const renderTag = (tag: string, index: number) => (
+  <li key={tag}>
+    <Tag label={tag} />
+  </li>
+);
 
 export interface IArticleProps extends IBaseProps, Partial<ImageProps> {
   title?: string;
   text?: string;
+  publicationDate?: string;
+  tags?: string[];
 }
 
-export const Article = ({ src, title, text, className }: IArticleProps) => {
+export const Article = ({
+  src,
+  title,
+  text,
+  publicationDate,
+  tags = [],
+  className,
+}: IArticleProps) => {
   return (
     <article
       data-testid="article-widget"
@@ -34,8 +57,24 @@ export const Article = ({ src, title, text, className }: IArticleProps) => {
           />
         </div>
       )}
-      <h1 data-testid="article-title">{title}</h1>
-      <p data-testid="article-content">{text}</p>
+      {publicationDate && (
+        <time className={publicationDateClass} dateTime={publicationDate}>
+          <Calendar1Icon size={16} />
+          {formatToDdMmmmYyyy(publicationDate)}
+        </time>
+      )}
+      <h1 data-testid="article-title" className={articleTitleClass}>
+        {title}
+      </h1>
+      <hr className={delimiterClass} />
+      <p data-testid="article-content" className={articleTextClass}>
+        {text}
+      </p>
+      {!!tags?.length && (
+        <ul data-testid="article-tags" className={tagContainerClass}>
+          {tags.map(renderTag)}
+        </ul>
+      )}
     </article>
   );
 };
