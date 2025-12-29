@@ -1,7 +1,7 @@
-import clsx from "clsx";
 import Link from "next/link";
 
 import { IBaseProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 import { Button } from "../../../base";
 import {
@@ -39,7 +39,7 @@ const GlobalNavbarLinkItem = ({
 }: IGlobalNavbarLinkItemProps) => {
   return (
     <li
-      className={clsx(globalNavbarLinkItemClass, className)}
+      className={cn(globalNavbarLinkItemClass, className)}
       data-testid={globalNavbarLinkItemTestId}
     >
       <Link
@@ -70,7 +70,7 @@ const GlobalNavbarLinkOutItem = ({
 }: IGlobalNavbarLinkOutItemProps) => {
   return (
     <li
-      className={clsx(globalNavbarLinkOutItemClass, className)}
+      className={cn(globalNavbarLinkOutItemClass, className)}
       data-testid={globalNavbarLinkOutItemTestId}
     >
       <a
@@ -127,7 +127,7 @@ const GlobalNavbar = ({ ref, className, children }: IGlobalNavbarProps) => {
   return (
     <ul
       ref={ref}
-      className={clsx(globalNavbarClass, className)}
+      className={cn(globalNavbarClass, className)}
       data-testid={globalNavbarTestId}
     >
       {navbarItems}

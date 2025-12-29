@@ -1,7 +1,7 @@
-import { clsx } from "clsx";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 
 import { IBaseProps, SocialType } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 import { socialButtonClass } from "./social-button.styles";
 
@@ -24,7 +24,7 @@ export const SocialButton = ({ type, href, className }: ISocialButtonProps) => {
       href={href}
       target="blank"
       rel="noopener noreferrer"
-      className={clsx(socialButtonClass, className)}
+      className={cn(socialButtonClass, className)}
     >
       <SocialIcon />
     </a>

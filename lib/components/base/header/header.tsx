@@ -1,7 +1,5 @@
-import clsx from "clsx";
-
 import { IBaseProps } from "@/lib/types";
-import { filterChildrenByDisplayNames } from "@/lib/utils";
+import { cn, filterChildrenByDisplayNames } from "@/lib/utils";
 
 import {
   rightToolbarDisplayName,
@@ -52,7 +50,7 @@ const RightToolbar = ({ className, children }: IHeaderRightToolbarProps) => {
   return (
     <div
       data-testid={rightToolbarTestId}
-      className={clsx(styles.headerRightToolbarClass, className)}
+      className={cn(styles.headerRightToolbarClass, className)}
     >
       {children}
     </div>
@@ -79,7 +77,7 @@ const LeftToolbar = ({ className, children }: IHeaderLeftToolbarProps) => {
   return (
     <div
       data-testid={leftToolbarTestId}
-      className={clsx(styles.headerLeftToolbarClass, className)}
+      className={cn(styles.headerLeftToolbarClass, className)}
     >
       {children}
     </div>
@@ -106,7 +104,7 @@ const CenterToolbar = ({ className, children }: IHeaderCenterToolbarProps) => {
   return (
     <div
       data-testid={centerToolbarTestId}
-      className={clsx(styles.headerCenterToolbarClass, className)}
+      className={cn(styles.headerCenterToolbarClass, className)}
     >
       {children}
     </div>
@@ -133,7 +131,7 @@ const NavMenu = ({ className, children }: IHeaderNavMenuProps) => {
   return (
     <nav
       data-testid={navMenuContainerTestId}
-      className={clsx(styles.headerNavMenuClass, className)}
+      className={cn(styles.headerNavMenuClass, className)}
       aria-label={navMenuContainerAriaLabel}
       role="navigation"
     >
@@ -173,17 +171,17 @@ const Header = ({
   return (
     <header
       data-testid={applicationHeaderTestId}
-      className={clsx(styles.headerContainerClass, className)}
+      className={cn(styles.headerContainerClass, className)}
     >
       <div
         data-testid={mainPanelTestId}
-        className={clsx(styles.mainPanelClass, mainPanelTestId)}
+        className={cn(styles.mainPanelClass, mainPanelTestId)}
       >
         {toolbars}
       </div>
       <div
         data-testid={navMenuDrawerTestId}
-        className={clsx(
+        className={cn(
           styles.drawerClass,
           {
             [styles.drawerExpandedClass]: isNavMenuOpen,

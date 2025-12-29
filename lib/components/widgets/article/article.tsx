@@ -1,11 +1,11 @@
 // TODO: Implement loading state with skeletons in the future
 // if any significant performance issues arise.
 
-import { clsx } from "clsx";
 import { Calendar1Icon } from "lucide-react";
 import Image, { ImageProps } from "next/image";
 
 import { IBaseProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 import { Tag } from "../../base";
 import {
@@ -44,7 +44,7 @@ export const Article = ({
   return (
     <article
       data-testid="article-widget"
-      className={clsx(articleContainerClass, className)}
+      className={cn(articleContainerClass, className)}
     >
       {title && src && (
         <div data-testid="article-banner" className={bannerContainerClass}>

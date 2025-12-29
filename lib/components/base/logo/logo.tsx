@@ -1,8 +1,8 @@
-import { clsx } from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 
 import { IBaseProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 import { logoClass, linkClass } from "./logo.styles";
 
@@ -112,7 +112,7 @@ export const Logo = ({
       <Image
         src={imgSrc}
         alt={altText}
-        className={clsx(logoClass, className)}
+        className={cn(logoClass, className)}
         width={width}
         height={height}
       />

@@ -1,7 +1,5 @@
- 
-import clsx from "clsx";
-
 import { IBaseProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 import { mainGridDataTestId } from "./constants";
 import { mainGridClass } from "./main-grid.styles";
@@ -31,7 +29,7 @@ export const MainGrid = ({ id, className, children }: IMainGridProps) => {
     <div
       id={id}
       data-testid={mainGridDataTestId}
-      className={clsx(mainGridClass, className)}
+      className={cn(mainGridClass, className)}
     >
       {children}
     </div>

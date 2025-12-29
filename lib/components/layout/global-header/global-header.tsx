@@ -1,6 +1,5 @@
 "use client";
 
-import clsx from "clsx";
 import { ChevronDown, LucideProps, Menu, Star, X } from "lucide-react";
 import * as icons from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -9,7 +8,7 @@ import { useRef, useState, MouseEvent, ComponentType } from "react";
 import { Button, Header, ILogoProps, Logo } from "@/lib/components/base";
 import { useMediaQuery, usePointerOut } from "@/lib/hooks";
 import { IBaseProps, RelationTo } from "@/lib/types";
-import { RemoteActions } from "@/lib/utils";
+import { cn, RemoteActions } from "@/lib/utils";
 
 import {
   appLogoClass,
@@ -78,7 +77,7 @@ const renderNavMenuGroup =
           {title}
           <span
             key="icon"
-            className={clsx(
+            className={cn(
               navbarItemIconContainerClass,
               burgerGroupChevronClass,
               isCurrentMenuGroup && navbarCurrentItemIconContainerClass,
@@ -88,7 +87,7 @@ const renderNavMenuGroup =
           </span>
         </button>
         <div
-          className={clsx(
+          className={cn(
             collapsibleContainerClass,
             isCurrentMenuGroup && expandedContainerClass,
           )}
@@ -141,7 +140,7 @@ const renderGlobalNavbarItem =
             </span>
             <span
               key="icon"
-              className={clsx(
+              className={cn(
                 navbarItemIconContainerClass,
                 isCurrentItem && navbarCurrentItemIconContainerClass,
               )}

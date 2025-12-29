@@ -1,9 +1,9 @@
-import clsx from "clsx";
 import Link from "next/link";
 import { ReactNode } from "react";
 
 import { contactIconMap } from "@/lib/constants";
 import { ContactInfoType, IBaseProps, NavigationLink } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 import {
   shortcutLinkClass,
@@ -46,7 +46,7 @@ export const UtilityBar = ({
   renderShortcut = defaultRenderShortcut,
 }: IUtilityBarProps) => {
   return (
-    <nav className={clsx(utilityBarClass, className)}>
+    <nav className={cn(utilityBarClass, className)}>
       <div className={utilityBarContentClass}>
         {renderQuickContact(quickContact)}
         <div>{shortcuts?.map(renderShortcut)}</div>

@@ -1,15 +1,14 @@
-import clsx from "clsx";
 import { HTMLAttributes } from "react";
 
 import { IBaseProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 import { buttonClass, disabledButtonClass } from "./button.styles";
 import { variantClassMap, styleClassMap } from "./constants";
 import { ButtonPriority, ButtonVariant } from "./types";
 
 export interface IButtonProps
-  extends IBaseProps,
-    HTMLAttributes<HTMLButtonElement> {
+  extends IBaseProps, HTMLAttributes<HTMLButtonElement> {
   priority?: ButtonPriority;
   variant?: ButtonVariant;
   disabled?: boolean;
@@ -44,12 +43,12 @@ export const Button = ({
   return (
     <button
       {...attrs}
-      className={clsx(
+      className={cn(
         buttonClass,
         variantClassMap[priority],
         styleClassMap[variant],
         { [disabledButtonClass]: disabled },
-        className
+        className,
       )}
       onClick={disabled ? undefined : onClick}
       disabled={disabled}

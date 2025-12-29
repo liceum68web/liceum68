@@ -1,7 +1,7 @@
-import { clsx } from "clsx";
 import { JSX } from "react";
 
 import { IBaseProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 import { tagContainerClass } from "./tag.styles";
 
@@ -27,7 +27,7 @@ export const Tag = ({
   return (
     <TagElement
       data-testid="tag-element"
-      className={clsx(tagContainerClass, className)}
+      className={cn(tagContainerClass, className)}
     >
       {content}
     </TagElement>

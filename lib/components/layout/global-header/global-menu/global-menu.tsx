@@ -1,6 +1,5 @@
-import { clsx } from "clsx";
-
 import { IBaseProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 import {
   globalMenuItemDisplayName,
@@ -19,7 +18,7 @@ export interface IGlobalMenuItemProps extends IBaseProps {}
 const GlobalMenuItem = ({ children, className }: IGlobalMenuItemProps) => {
   return (
     <li
-      className={clsx(globalMenuItemClass, className)}
+      className={cn(globalMenuItemClass, className)}
       data-testid={globalMenuItemTestId}
     >
       {children}
@@ -46,7 +45,7 @@ const GlobalMenu = ({
     <ul
       onMouseLeave={onMouseLeave}
       ref={ref}
-      className={clsx(globalMenuClass, className)}
+      className={cn(globalMenuClass, className)}
       data-testid={globalMenuTestId}
     >
       {globalMenuItems}
