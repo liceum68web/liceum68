@@ -5,7 +5,8 @@
   --token-color-blue: #55a8dfff;
   --token-color-darkblue: #113b69ff;
 
-  --token-z-index-dropdown: 2;
+  --token-z-index-dropdown: 5;
+  --token-z-index-slider-overlay: 3;
 }
 
 .filter-white {
