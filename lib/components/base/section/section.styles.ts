@@ -2,7 +2,7 @@ export const sectionContainerClass =
   "grid [grid-template-rows:20px_20px_1fr] [grid-template-columns:1fr] [&:not(:first-child)]:mt-[-20px] opacity-0 translate-y-20 transition-all duration-700 ease-out";
 export const visibleSectionClass = "opacity-100 translate-y-0";
 export const sectionAnchorLabelClass =
-  "row-start-1 row-end-3 col-start-1 col-end-2 self-center justify-self-center z-[var(--token-z-overlap)] text-xs md:text-sm font-semibold uppercase tracking-wider text-white bg-[var(--color-start-blue)] px-4 py-1 rounded-full truncate max-w-80 md:max-w-100";
+  "row-start-1 row-end-3 col-start-1 col-end-2 self-center justify-self-center z-[var(--token-z-overlap)] text-xs md:text-sm font-semibold uppercase tracking-wider text-white bg-[var(--color-start-blue)] px-4 py-1 rounded-full truncate max-w-80 md:max-w-100 shadow-xl";
 export const sectionBodyClass =
   "row-start-2 row-end-4 col-start-1 col-end-2 px-4md:px-6 py-8 md:py-12";
 export const sectionHeaderClass = "mb-8 text-center max-w-4/5 mx-auto";
