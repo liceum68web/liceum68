@@ -7,6 +7,7 @@
 
   --token-z-index-dropdown: 5;
   --token-z-index-slider-overlay: 3;
+  --token-z-overlap: 2;
 }
 
 .filter-white {
