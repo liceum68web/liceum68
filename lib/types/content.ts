@@ -15,6 +15,15 @@ export enum ContactInfoType {
   ADDRESS = "address",
 }
 
+export enum IconPaletteType {
+  RED = "red",
+  ORANGE = "orange",
+  GREEN = "green",
+  BLUE = "blue",
+  PURPLE = "purple",
+  GRAY = "gray",
+}
+
 // TODO: examine and extend as needed once ready
 export interface ILayoutContentDto {
   data: {
