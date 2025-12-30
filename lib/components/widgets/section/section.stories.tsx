@@ -5,7 +5,7 @@ import { ISectionProps, Section } from "./section";
 type StoryProps = ISectionProps;
 
 const meta: Meta<StoryProps> = {
-  title: "Base/Section",
+  title: "Widgets/Section",
   component: Section,
 };
 

@@ -5,7 +5,7 @@ import { ISliderProps, Slider } from "./slider";
 type StoryProps = ISliderProps;
 
 const meta: Meta<StoryProps> = {
-  title: "Base/Slider",
+  title: "Widgets/Slider",
   component: Slider,
 };
 
