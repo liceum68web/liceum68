@@ -24,6 +24,12 @@ export enum IconPaletteType {
   GRAY = "gray",
 }
 
+export enum ArrayLayoutType {
+  GRID = "grid",
+  ROW = "row",
+  COLUMN = "column",
+}
+
 // TODO: examine and extend as needed once ready
 export interface ILayoutContentDto {
   data: {
